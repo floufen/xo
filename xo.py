@@ -207,7 +207,7 @@ class LineEditor(urwid.Edit):
     def __init__(self, edit_text="", lexer=None, main_display=None, smart_home=True, 
                  tabsize=None, **kwargs):
         self.original_text = edit_text
-        super().__init__(edit_text=sanitize_text(edit_text, tabsize), **kwargs)
+        super(LineEditor, self).__init__(edit_text=sanitize_text(edit_text, tabsize), **kwargs)
         if lexer is None:
            lexer = guess_lexer(self.get_edit_text())
         self.lexer = lexer
@@ -224,7 +224,7 @@ class LineEditor(urwid.Edit):
     def keypress(self, size, key):
         orig_pos = self.edit_pos
         orig_allow_tab, self.allow_tab = self.allow_tab, False
-        rtn = super().keypress(size, key)
+        rtn = super(LineEditor, self).keypress(size, key)
         self.allow_tab = orig_allow_tab
         if key == "left" or key == "right":
             self.main_display.reset_status()
@@ -251,7 +251,7 @@ class GotoEditor(urwid.Edit):
 class DequeEditor(urwid.Edit):
     """An editor that uses values from a deque or list.  Useful for histories."""
     def __init__(self, deq=None, **kwargs):
-        super().__init__(**kwargs)
+        super(DequeEditor, self).__init__(**kwargs)
         self.deq = deq
         self.i = self.max_i = len(deq)  # index
         self.orig_text = ""
@@ -260,7 +260,7 @@ class DequeEditor(urwid.Edit):
         return self.deq[i]
 
     def keypress(self, size, key):
-        rtn = super().keypress(size, key)
+        rtn = super(DequeEditor, self).keypress(size, key)
         if key == "up":
             i = self.i
             if i == self.max_i:
@@ -324,7 +324,7 @@ class FileSelectorEditor(urwid.Edit):
 
     def keypress(self, size, key):
         orig_pos = self.edit_pos
-        rtn = super().keypress(size, key)
+        rtn = super(FileSelectorEditor, self).keypress(size, key)
         if key == "tab":
             fname = self.filename()
             globbed = glob(fname + '*')
@@ -844,4 +844,5 @@ def main():
 
 if __name__=="__main__": 
     main()
+
 
